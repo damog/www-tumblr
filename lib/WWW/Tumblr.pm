@@ -475,6 +475,13 @@ sub _POST_request {
 
 L<http://tumblr.com>, L<http://tumblr.com/api>. See also the sample scripts on the examples/ dir.
 
+This and other interesting modules and hacks are posted by the author on
+his blog Infinite Pig Theorem, L<http://damog.net>.
+
+=head 1 CODE
+
+The code is actively maintained at L<http://github.com/damog/www-tumblr>.
+
 =head1 AUTHOR
 
 David Moreno Garza, E<lt>david@axiombox.comE<gt>
