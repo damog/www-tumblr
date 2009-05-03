@@ -1,0 +1,14 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use lib '../lib';
+
+use WWW::Tumblr;
+
+my $t = WWW::Tumblr->new;
+
+$t->email('damogar@gmail.com');
+$t->password('zemIjAeRZYLkE8TxRv2duRWlqtpDlAMkqRJkEdrQlhUv6o1y');
+$t->authenticate or die $t->errstr;

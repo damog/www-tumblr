@@ -1,0 +1,20 @@
+4 - Sat May  2 22:54:25 EDT 2009
+  - Up to date with Tumblr's API.
+  - Added information for "edit" and "delete".
+
+3.01.1 - Fri Jan  2 12:52:09 EST 2009
+	- Fix CPAN RT bug 42084
+
+3 To Me You Are A Work Of Art - Thu Mar 20 17:39:00 EDT 2008
+	- File uploads included on the write method.
+
+2 "Island In A Sun"	- Thu Mar 20 12:52:34 EDT 2008
+	- Mostly complete, only file uploads missing.
+
+1 "Heart In A Cage" - Wed Mar 19 20:05:06 EDT 2008
+	- Basic functionality is present, read, read_json and write.
+	- Missing:
+		- documentation
+		- file uploads
+		- the "other actions"
+	
