@@ -86,7 +86,7 @@ use Data::Dumper;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 
-our $VERSION = '4';
+our $VERSION = '4.1';
 
 =head2 new
 
@@ -252,7 +252,10 @@ sub read {
 	$url .= '?'.join'&',map{qq{$_=$opts{$_}}} sort keys %opts;
 
   if($auth) {
+    $opts{email} = $self->email;
+    $opts{password} = $self->password;
     my $req = HTTP::Request->new(POST => $url);
+    $req->content_type('application/x-www-form-urlencoded');
     $req->content(join '&', map{ qq{$_=$opts{$_}} } sort keys %opts);
     my $res = $self->{ua}->request($req);
     if($res->is_success) {
@@ -344,10 +347,14 @@ Deletes the post idenfied with the C<post-id> id.
 sub delete {
   my($self, %opts) = @_;
 
+  $opts{email} = $self->email;
+  $opts{password} = $self->password;
+
   croak "No email was defined" unless $self->email;
   croak "No password was defined" unless $self->password;
 
   my $req = HTTP::Request->new(POST => 'http://www.tumblr.com/api/delete');
+  $req->content_type('application/x-www-form-urlencoded');
   $req->content(join '&', map { qq{$_=$opts{$_}} } sort keys %opts);
   my $res = $self->{ua}->request($req);
   
