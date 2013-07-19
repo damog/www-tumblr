@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+package WWW::Tumblr;
 
 =head1 NAME
 
@@ -76,7 +76,6 @@ The Tumblr API is not really long or difficult and this implementation covers it
 
 =cut
 
-package WWW::Tumblr;
 
 use strict;
 use warnings;
