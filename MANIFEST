@@ -8,4 +8,4 @@ Changes
 Makefile.PL
 MANIFEST
 README
-Rakefile
+t/00-load.t
