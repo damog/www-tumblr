@@ -8,10 +8,7 @@ use WWW::Tumblr::API;
 
 extends 'WWW::Tumblr';
 
-tumblr_api_method info        => [ 'GET', 'oauth' ];
-tumblr_api_method dashboard   => [ 'GET', 'oauth' ];
-tumblr_api_method likes       => [ 'GET', 'oauth' ];
-tumblr_api_method following   => [ 'GET', 'oauth' ];
+tumblr_api_method $_, [ 'GET', 'oauth' ] for qw( info dashboard likes following );
 
 sub user { ... }
 
