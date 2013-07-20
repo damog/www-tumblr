@@ -40,7 +40,7 @@ sub _oauth_request {
 		request_method => uc $method,
 		request_url => 'http://api.tumblr.com/v2/' . $url_path,
 		consumer_key => $self->consumer_key,
-	    consumer_secret => $self->secret_key,
+	   	consumer_secret => $self->secret_key,
 		token => $self->token,
 		token_secret => $self->token_secret,
 		extra_params => \%params
@@ -83,7 +83,7 @@ sub session {
 	$self->{session} ||= {};
 
 	if ( ref $_[0] eq 'HASH' ) {
-		$self->{session} = $_[0];
+		return $self->{session} = $_[0];
 	}
 	elsif ( @_ > 1 ) {
 		$self->{session}->{$_[0]} = $_[1]
