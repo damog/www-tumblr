@@ -1,12 +1,97 @@
 package WWW::Tumblr;
 
+use strict;
+use warnings;
+
+use Moose;
+use Carp;
+use Data::Dumper;
+use HTTP::Request::Common;
+use Net::OAuth::Client;
+use WWW::Tumblr::API;
+use WWW::Tumblr::Blog;
+use WWW::Tumblr::User;
+
+has 'consumer_key',     is => 'rw', isa => 'Str';
+has 'secret_key',       is => 'rw', isa => 'Str';
+has 'token',            is => 'rw', isa => 'Str';
+has 'token_secret',     is => 'rw', isa => 'Str';
+has 'callback',         is => 'rw';
+has 'oauth',            is => 'rw', isa => 'Net::OAuth::Client', default => sub {
+	my $self = shift;
+	Net::OAuth::Client->new(
+		$self->consumer_key,
+		$self->secret_key,
+		request_token_path => 'http://www.tumblr.com/oauth/request_token',
+		authorize_path => 'http://www.tumblr.com/oauth/authorize',
+		access_token_path => 'http://www.tumblr.com/oauth/access_token',
+		callback => $self->callback, 
+		session => sub { if (@_ > 1) { $self->session($_[0] => $_[1]) }; return $self->session($_[0]) },
+		debug => 1
+	);
+};
+
+sub user {
+    my ( $self ) = shift;
+    return WWW::Tumblr::User->new({
+        consumer_key    => $self->consumer_key,
+        secret_key      => $self->secret_key,
+        token           => $self->token,
+        token_secret    => $self->token_secret,
+    })
+}
+
+sub blog {
+    my ( $self ) = shift;
+    my $name = shift or croak "A blog host name is needed.";
+
+    return WWW::Tumblr::Blog->new({
+        consumer_key    => $self->consumer_key,
+        secret_key      => $self->secret_key,
+        token           => $self->token,
+        token_secret    => $self->token_secret,
+        base_hostname   => $name,
+    })
+}
+
+sub _oauth_request {
+	my $self = shift;
+	my $method = shift;
+	my $url_path= shift;
+	my %params = @_;
+
+	my $request = $self->oauth->_make_request(
+		'protected resource', 
+		request_method => uc $method,
+		request_url => 'http://api.tumblr.com/v2/' . $url_path,
+		consumer_key => $self->consumer_key,
+	    consumer_secret => $self->secret_key,
+		token => $self->token,
+		token_secret => $self->token_secret,
+		extra_params => \%params
+	);
+	$request->sign;
+
+	my $message = $method =~ /post/i 
+				? POST $request->to_url, Content => $request->to_post_body
+				: GET $request->to_url;
+
+	return $self->oauth->request( $message );
+}
+
+
+1;
+__END__
 use base qw(Class::Accessor::Fast);
 
+use Moo;
 use Carp;
 use HTTP::Request::Common;
 use Net::OAuth::Client;
 
 __PACKAGE__->mk_accessors(qw/ consumer_key secret_key blog callback token token_secret /);
+
+
 
 sub new {
 	my $class = shift;
