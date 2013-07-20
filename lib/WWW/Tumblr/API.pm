@@ -24,11 +24,13 @@ sub tumblr_api_method ($$) {
         my ( $http_method, $auth_method ) = @{ $r->{_meta}->{spec} };
        
         my $response;
+        my $kind = lc( pop( @{ [ split '::', ref $self ] }));
         if ( $auth_method eq 'oauth' ) {
             $response = $self->_oauth_request(
                 $http_method,
-                lc( pop( @{ [ split '::', ref $self ] }) . '/' .
-                join '/', split /_/, $method_name),
+                $kind . '/' .
+                ( $kind eq 'blog' ? $self->base_hostname . '/' : '' ) .
+                join('/', split /_/, $method_name),
                 %{ $r->{args} || {} }
             );
         } elsif ( $auth_method eq 'none' ) {
@@ -42,7 +44,8 @@ sub tumblr_api_method ($$) {
         if ( $response->is_success ) {
             return decode_json($response->decoded_content)->{response};
         } else {
-            ...
+            return WWW::Tumblr::Error->exception;
+            print Dumper $response;
         }
     };
 
