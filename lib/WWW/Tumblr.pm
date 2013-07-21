@@ -3,6 +3,8 @@ package WWW::Tumblr;
 use strict;
 use warnings;
 
+require 5.012_000;
+
 use Moose;
 use Carp;
 use Data::Dumper;
