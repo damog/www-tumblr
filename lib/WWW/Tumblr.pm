@@ -11,6 +11,7 @@ use Net::OAuth::Client;
 use WWW::Tumblr::API;
 use WWW::Tumblr::Blog;
 use WWW::Tumblr::User;
+use LWP::UserAgent;
 
 has 'consumer_key',     is => 'rw', isa => 'Str';
 has 'secret_key',       is => 'rw', isa => 'Str';
@@ -19,6 +20,7 @@ has 'token_secret',     is => 'rw', isa => 'Str';
 
 has 'callback',         is => 'rw';
 has 'error',            is => 'rw', isa => 'WWW::Tumblr::ResponseError';
+has 'ua',               is => 'rw', isa => 'LWP::UserAgent', default => sub { LWP::UserAgent->new };
 has 'oauth',            is => 'rw', isa => 'Net::OAuth::Client', default => sub {
 	my $self = shift;
 	Net::OAuth::Client->new(
@@ -53,6 +55,27 @@ sub blog {
         token_secret    => $self->token_secret,
         base_hostname   => $name,
     })
+}
+
+sub _apikey_request {
+    my $self        = shift;
+    my $method      = shift;
+    my $url_path    = shift;
+
+    my $req; # request object
+    if ( $method eq 'GET' ) {
+        $req = HTTP::Request->new(
+            $method => 'http://api.tumblr.com/v2/' . $url_path . '?api_key='.$self->consumer_key
+            # TODO: add other required/optional params
+        );
+    } elsif ( $method eq 'POST' ) {
+        ...
+    } else {
+        die "$method misunderstood";
+    }
+
+    my $res = $self->ua->request( $req );
+
 }
 
 sub _oauth_request {

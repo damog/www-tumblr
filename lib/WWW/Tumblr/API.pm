@@ -37,6 +37,13 @@ sub tumblr_api_method ($$) {
         } elsif ( $auth_method eq 'none' ) {
         
         } elsif ( $auth_method eq 'apikey' ) {
+            $response = $self->_apikey_request(
+                $http_method,
+                $kind . '/' .
+                ( $kind eq 'blog' ? $self->base_hostname . '/' : '' ) .
+                join('/', split /_/, $method_name),
+                %{ $r->{args} || {} }
+            );
         
         } else {
             die "auth method: $auth_method is unsupported, you jerk.";
