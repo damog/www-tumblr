@@ -5,6 +5,8 @@ use warnings;
 
 require 5.012_000;
 
+our $VERSION = '5.01';
+
 use Moose;
 use Carp;
 use Data::Dumper;
