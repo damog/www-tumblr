@@ -7,7 +7,15 @@ extends 'WWW::Tumblr';
 
 has 'base_hostname', is => 'rw', isa => 'Str', required => 1;
 
-tumblr_api_method post => [ 'POST', 'oauth' ];
+tumblr_api_method post                  => [ 'POST', 'oauth' ];
+tumblr_api_method post_edit             => [ 'POST', 'oauth' ];
+tumblr_api_method post_reblog           => [ 'POST', 'oauth' ];
+
+tumblr_api_method posts_queue           => [ 'GET',  'oauth' ];
+tumblr_api_method posts_draft           => [ 'GET',  'oauth' ];
+tumblr_api_method posts_submission      => [ 'GET',  'oauth' ];
+
+tumblr_api_method followers             => [ 'GET',  'oauth' ];
 
 sub blog { ... }
 
