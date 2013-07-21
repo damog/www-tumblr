@@ -16,7 +16,9 @@ has 'consumer_key',     is => 'rw', isa => 'Str';
 has 'secret_key',       is => 'rw', isa => 'Str';
 has 'token',            is => 'rw', isa => 'Str';
 has 'token_secret',     is => 'rw', isa => 'Str';
+
 has 'callback',         is => 'rw';
+has 'error',            is => 'rw', isa => 'WWW::Tumblr::ResponseError';
 has 'oauth',            is => 'rw', isa => 'Net::OAuth::Client', default => sub {
 	my $self = shift;
 	Net::OAuth::Client->new(
@@ -27,7 +29,6 @@ has 'oauth',            is => 'rw', isa => 'Net::OAuth::Client', default => sub 
 		access_token_path => 'http://www.tumblr.com/oauth/access_token',
 		callback => $self->callback, 
 		session => sub { if (@_ > 1) { $self->session($_[0] => $_[1]) }; return $self->session($_[0]) },
-		debug => 1
 	);
 };
 

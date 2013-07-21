@@ -2,11 +2,12 @@ package WWW::Tumblr::API;
 
 use strict;
 use warnings;
+
 use Moose;
 use JSON 'decode_json';
-use Data::Dumper;
 use Moose::Exporter;
 Moose::Exporter->setup_import_methods(with_caller => ['tumblr_api_method']);
+use WWW::Tumblr::ResponseError;
 
 sub tumblr_api_method ($$) {
     my $class = Moose::Meta::Class->initialize( shift );
@@ -44,8 +45,10 @@ sub tumblr_api_method ($$) {
         if ( $response->is_success ) {
             return decode_json($response->decoded_content)->{response};
         } else {
-            return WWW::Tumblr::Error->exception;
-            print Dumper $response;
+            $self->error( WWW::Tumblr::ResponseError->new(
+                response => $response
+            ) );
+            return;
         }
     };
 
