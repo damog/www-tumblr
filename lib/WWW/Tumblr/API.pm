@@ -24,30 +24,15 @@ sub tumblr_api_method ($$) {
 
         my ( $http_method, $auth_method ) = @{ $r->{_meta}->{spec} };
        
-        my $response;
         my $kind = lc( pop( @{ [ split '::', ref $self ] }));
-        if ( $auth_method eq 'oauth' ) {
-            $response = $self->_oauth_request(
-                $http_method,
-                $kind . '/' .
-                ( $kind eq 'blog' ? $self->base_hostname . '/' : '' ) .
-                join('/', split /_/, $method_name),
-                %{ $r->{args} || {} }
-            );
-        } elsif ( $auth_method eq 'none' ) {
-        
-        } elsif ( $auth_method eq 'apikey' ) {
-            $response = $self->_apikey_request(
-                $http_method,
-                $kind . '/' .
-                ( $kind eq 'blog' ? $self->base_hostname . '/' : '' ) .
-                join('/', split /_/, $method_name),
-                %{ $r->{args} || {} }
-            );
-        
-        } else {
-            die "auth method: $auth_method is unsupported, you jerk.";
-        }
+
+        my $response = $self->_tumblr_api_request({
+            auth        => $auth_method,
+            http_method => $http_method,
+            url_path    => $kind . '/' . ( $kind eq 'blog' ? $self->base_hostname . '/' : '' ) .
+                            join('/', split /_/, $method_name),
+            extra_args  => $r->{args},
+        });
 
         if ( $response->is_success ) {
             return decode_json($response->decoded_content)->{response};
