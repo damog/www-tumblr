@@ -25,6 +25,7 @@ has 'token_secret',     is => 'rw', isa => 'Str';
 has 'callback',         is => 'rw';
 has 'error',            is => 'rw', isa => 'WWW::Tumblr::ResponseError';
 has 'ua',               is => 'rw', isa => 'LWP::UserAgent', default => sub { LWP::UserAgent->new };
+
 has 'oauth',            is => 'rw', isa => 'Net::OAuth::Client', default => sub {
 	my $self = shift;
 	Net::OAuth::Client->new(
@@ -59,6 +60,17 @@ sub blog {
         token_secret    => $self->token_secret,
         base_hostname   => $name,
     })
+}
+
+sub _tumblr_api_request {
+    my $self    = shift;
+    my $r       = shift; #args
+
+    my $method_to_call = '_' . $r->{auth} . '_request';
+    return $self->$method_to_call(
+        $r->{http_method}, $r->{url_path}, $r->{extra_args}
+    );
+
 }
 
 sub _apikey_request {
