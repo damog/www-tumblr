@@ -98,7 +98,7 @@ sub _oauth_request {
 	my $self = shift;
 	my $method = shift;
 	my $url_path= shift;
-	my %params = @_;
+	my $params = shift;
 
 	my $request = $self->oauth->_make_request(
 		'protected resource', 
@@ -108,7 +108,7 @@ sub _oauth_request {
 	    consumer_secret => $self->secret_key,
 		token => $self->token,
 		token_secret => $self->token_secret,
-		extra_params => \%params
+		extra_params => $params,
 	);
 	$request->sign;
 
