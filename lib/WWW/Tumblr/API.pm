@@ -12,17 +12,13 @@ use WWW::Tumblr::ResponseError;
 sub tumblr_api_method ($$) {
     my $class = Moose::Meta::Class->initialize( shift );
     my $method_name = $_[0];
-
-    my $meta = {
-        name => $method_name,
-        spec => $_[1],
-    };
+    my $method_spec = $_[1];
 
     my $sub = sub {
         my $self = shift;
-        my $r = { _meta => $meta, args => shift };
+        my $args = { @_ };
 
-        my ( $http_method, $auth_method ) = @{ $r->{_meta}->{spec} };
+        my ( $http_method, $auth_method ) = @{ $method_spec };
        
         my $kind = lc( pop( @{ [ split '::', ref $self ] }));
 
@@ -31,7 +27,7 @@ sub tumblr_api_method ($$) {
             http_method => $http_method,
             url_path    => $kind . '/' . ( $kind eq 'blog' ? $self->base_hostname . '/' : '' ) .
                             join('/', split /_/, $method_name),
-            extra_args  => $r->{args},
+            extra_args  => $args,
         });
 
         if ( $response->is_success ) {
