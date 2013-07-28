@@ -12,6 +12,8 @@ tumblr_api_method avatar                => [ 'GET',  'none', undef, 'size' ];
 tumblr_api_method likes                 => [ 'GET',  'apikey'];
 tumblr_api_method followers             => [ 'GET',  'oauth' ];
 
+tumblr_api_method posts                 => [ 'GET',  'apikey' ];
+
 tumblr_api_method post                  => [ 'POST', 'oauth' ];
 tumblr_api_method post_edit             => [ 'POST', 'oauth' ];
 tumblr_api_method post_reblog           => [ 'POST', 'oauth' ];
