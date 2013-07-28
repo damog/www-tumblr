@@ -16,6 +16,7 @@ ok ref $posts,                          'posts is s reference';
 is ref $posts, 'HASH',                  'a HASH reference';
 
 ok ! $blog->posts( id => 1234567890 ),  'this should be an error';
+ok $blog->posts( type => 'video' ),     'this should be fine';
 
 done_testing();
 
