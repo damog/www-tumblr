@@ -73,16 +73,42 @@ sub _tumblr_api_request {
 
 }
 
+sub _none_request {
+    my $self        = shift;
+    my $method      = shift;
+    my $url_path    = shift;
+    my $params      = shift;
+
+    my $req;
+    if ( $method eq 'GET' ) {
+        print "Requesting... " .'http://api.tumblr.com/v2/' . $url_path, "\n";
+        $req = HTTP::Request->new(
+            $method => 'http://api.tumblr.com/v2/' . $url_path,
+        );
+    } elsif ( $method eq 'POST' ) {
+        ...
+    } else {
+        die "dude, wtf.";
+    }
+
+    my $res = $self->ua->request( $req );
+
+    if ( my $prev = $res->previous ) {
+        return $prev;
+    } else { return $res };
+}
+
 sub _apikey_request {
     my $self        = shift;
     my $method      = shift;
     my $url_path    = shift;
+    my $params      = shift;
 
     my $req; # request object
     if ( $method eq 'GET' ) {
         $req = HTTP::Request->new(
-            $method => 'http://api.tumblr.com/v2/' . $url_path . '?api_key='.$self->consumer_key
-            # TODO: add other required/optional params
+            $method => 'http://api.tumblr.com/v2/' . $url_path . '?api_key='.$self->consumer_key.
+            ( join '&', map { $_ .'='. $params->{ $_} } keys %$params )
         );
     } elsif ( $method eq 'POST' ) {
         ...
