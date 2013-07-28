@@ -17,6 +17,9 @@ is ref $posts, 'HASH',                  'a HASH reference';
 
 ok ! $blog->posts( id => 1234567890 ),  'this should be an error';
 ok $blog->posts( type => 'video' ),     'this should be fine';
+ok $blog->posts_queue,                  'posts/queue';
+ok $blog->posts_draft,                  'posts/draft';
+ok $blog->posts_submission,             'posts/submission';
 
 done_testing();
 
