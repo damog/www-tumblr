@@ -22,8 +22,6 @@ tumblr_api_method post_edit             => [ 'POST', 'oauth' ];
 tumblr_api_method post_reblog           => [ 'POST', 'oauth' ];
 tumblr_api_method post_delete           => [ 'POST', 'oauth' ];
 
-tumblr_api_method followers             => [ 'GET',  'oauth' ];
-
 sub blog { ... }
 
 1;
