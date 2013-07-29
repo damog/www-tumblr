@@ -1,3 +1,6 @@
+5 - unreleased
+  - Added support for Tumblr API v2.
+
 4.1 - Mon Jun 15 12:04:03 EDT 2009
   - Fixed issue with missing user/passwd on delete/read
     RT#46716. Thanks to http://suzuki.openid.ne.jp/
