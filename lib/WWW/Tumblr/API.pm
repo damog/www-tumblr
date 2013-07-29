@@ -18,7 +18,7 @@ sub tumblr_api_method ($$) {
         my $self = shift;
         my $args = { @_ };
 
-        my ( $http_method, $auth_method ) = @{ $method_spec };
+        my ( $http_method, $auth_method, $req_params, $url_param ) = @{ $method_spec };
        
         my $kind = lc( pop( @{ [ split '::', ref $self ] }));
 
@@ -26,11 +26,14 @@ sub tumblr_api_method ($$) {
             auth        => $auth_method,
             http_method => $http_method,
             url_path    => $kind . '/' . ( $kind eq 'blog' ? $self->base_hostname . '/' : '' ) .
-                            join('/', split /_/, $method_name),
+                            join('/', split /_/, $method_name) .
+                            ( defined $url_param && defined $args->{ $url_param } ?
+                                '/' . delete( $args->{ $url_param } ) : ''
+                            ),
             extra_args  => $args,
         });
 
-        if ( $response->is_success ) {
+        if ( $response->is_success || ( $response->code == 301 && $method_name eq 'avatar') ) {
             return decode_json($response->decoded_content)->{response};
         } else {
             $self->error( WWW::Tumblr::ResponseError->new(
