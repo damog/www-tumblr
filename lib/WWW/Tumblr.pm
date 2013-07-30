@@ -15,6 +15,7 @@ use Net::OAuth::Client;
 use WWW::Tumblr::API;
 use WWW::Tumblr::Blog;
 use WWW::Tumblr::User;
+use WWW::Tumblr::Authentication::OAuth;
 use LWP::UserAgent;
 
 has 'consumer_key',     is => 'rw', isa => 'Str';
@@ -22,9 +23,11 @@ has 'secret_key',       is => 'rw', isa => 'Str';
 has 'token',            is => 'rw', isa => 'Str';
 has 'token_secret',     is => 'rw', isa => 'Str';
 
-has 'callback',         is => 'rw';
+has 'callback',         is => 'rw', isa => 'Str';
 has 'error',            is => 'rw', isa => 'WWW::Tumblr::ResponseError';
 has 'ua',               is => 'rw', isa => 'LWP::UserAgent', default => sub { LWP::UserAgent->new };
+
+has 'session_store',	is => 'rw', isa => 'HashRef', default => sub { {} };
 
 has 'oauth',            is => 'rw', isa => 'Net::OAuth::Client', default => sub {
 	my $self = shift;
@@ -35,7 +38,7 @@ has 'oauth',            is => 'rw', isa => 'Net::OAuth::Client', default => sub 
 		authorize_path => 'http://www.tumblr.com/oauth/authorize',
 		access_token_path => 'http://www.tumblr.com/oauth/access_token',
 		callback => $self->callback, 
-		session => sub { if (@_ > 1) { $self->session($_[0] => $_[1]) }; return $self->session($_[0]) },
+		session => sub { if (@_ > 1) { $self->_session($_[0] => $_[1]) }; return $self->_session($_[0]) },
 	);
 };
 
@@ -46,7 +49,7 @@ sub user {
         secret_key      => $self->secret_key,
         token           => $self->token,
         token_secret    => $self->token_secret,
-    })
+    });
 }
 
 sub blog {
@@ -59,7 +62,16 @@ sub blog {
         token           => $self->token,
         token_secret    => $self->token_secret,
         base_hostname   => $name,
-    })
+    });
+}
+
+sub oauth_tools {
+	my ( $self ) = shift;
+	return WWW::Tumblr::Authentication::OAuth->new(
+		consumer_key    => $self->consumer_key,
+        secret_key      => $self->secret_key,
+        callback		=> $self->callback,
+	);
 }
 
 sub _tumblr_api_request {
@@ -70,7 +82,6 @@ sub _tumblr_api_request {
     return $self->$method_to_call(
         $r->{http_method}, $r->{url_path}, $r->{extra_args}
     );
-
 }
 
 sub _none_request {
@@ -145,9 +156,20 @@ sub _oauth_request {
 	return $self->oauth->request( $message );
 }
 
+sub _session {
+	my $self = shift;
+
+	if ( ref $_[0] eq 'HASH' ) {
+		$self->session_store($_[0]);
+	} elsif ( @_ > 1 ) {
+		$self->session_store->{$_[0]} = $_[1]
+	}
+	return $_[0] ? $self->session_store->{$_[0]} : $self->session_store;
+}
 
 1;
 __END__
+
 use base qw(Class::Accessor::Fast);
 
 use Moo;
@@ -255,8 +277,6 @@ sub post {
 
 	return $response->is_success ? $response->decoded_content : $response->status_line;
 }
-
-1;
 
 __END__
 =head1 NAME
