@@ -167,7 +167,9 @@ sub _session {
 	return $_[0] ? $self->session_store->{$_[0]} : $self->session_store;
 }
 
+1;
 __END__
+
 use base qw(Class::Accessor::Fast);
 
 use Moo;
@@ -276,8 +278,6 @@ sub post {
 	return $response->is_success ? $response->decoded_content : $response->status_line;
 }
 
-
-1;
 __END__
 =head1 NAME
 
