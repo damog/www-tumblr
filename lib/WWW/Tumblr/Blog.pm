@@ -57,7 +57,8 @@ sub _post {
                 join( ' ', @{ $req->{any} } )
             if scalar( grep { $args{ $_ } } @{ $req->{any} } ) == 0;
         } else {
-            Carp::croak "Trying to post type ".$args{type}." without: $req";
+            Carp::croak "Trying to post type ".$args{type}." without: $req"
+                unless defined $args{ $req };
         }
     }
 
