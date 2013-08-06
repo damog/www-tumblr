@@ -18,21 +18,18 @@ tumblr_api_method posts_queue           => [ 'GET',  'oauth' ];
 tumblr_api_method posts_draft           => [ 'GET',  'oauth' ];
 tumblr_api_method posts_submission      => [ 'GET',  'oauth' ];
 
-# tumblr_api_method post                  => [ 'POST', 'oauth' ];
-# tumblr_api_method post_edit             => [ 'POST', 'oauth' ];
-# tumblr_api_method post_reblog           => [ 'POST', 'oauth' ];
 tumblr_api_method post_delete           => [ 'POST', 'oauth' ];
 
 # posting methods!
 
 my %post_required_params = (
     text        => 'body',
-    photo       => { any => [qw(source data)] },
+    photo       => { any => [qw(source)] },
     quote       => 'quote',
     link        => 'url',
     chat        => 'conversation',
-    audio       => { any => [qw(external_url data)] },
-    video       => { any => [qw(embed data)] },
+    audio       => { any => [qw(external_url)] },
+    video       => { any => [qw(embed)] },
 );
 
 sub post {
