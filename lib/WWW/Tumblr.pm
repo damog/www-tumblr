@@ -3,9 +3,60 @@ package WWW::Tumblr;
 use strict;
 use warnings;
 
-require 5.012_000;
+require v5.10;
 
 our $VERSION = '5.01';
+
+=pod
+
+=head1 NAME
+
+WWW::Tumblr
+
+=head1 SYNOPSIS
+
+ my $t = WWW::Tumblr->new(
+    consumer_key    => $consumer_key,
+    secret_key      => $secret_key,
+    token           => $token,
+    token_secret    => $token_secret,
+ );
+
+ my $blog = $t->blog('perlapi.tumblr.com');
+ print Dumper $blog->info;
+
+=head1 MODULE AND TUMBLR API VERSION NOTE
+
+This module supports Tumblr API v2, starting from version 5. Since the previous API was deprecated upstream anyway, there's no backwards compatibility with < 5 versions.
+
+=head1 DESCRIPTION
+
+The new Tumblr API has changed the structure of data to query and its hierarchy. This module now reflects those changes as well. The main three classes are C<<WWW::Tumblr::User>>, C<<WWW::Tumblr::Blog>> and C<<WWW::Tumblr::Tagged>>.You can however, reach them directly C<<WWW::Tumblr>>, in most cases:
+
+ my $t = WWW::Tumblr->new( %set_of_four_tokens );
+ my $blog = $t->blog('perlapi.tumblr.com');
+
+ if ( my $post = $blog->post( type => 'text', body => 'Hell yeah, son!' ) ) {
+    say "I have published post id: " . $post->{id};    
+ } else {
+    print STDERR Dumper $blog->error;
+    die "I couldn't post it :(";
+ }
+
+You can also work directly with a C<<WWW::Tumblr::Blog>> class for example:
+
+ my $blog = WWW::Tumblr::Blog->new(
+    %four_tokens,
+    base_hostname => 'myblogontumblr.com'
+ );
+
+All operation methods will return false in case of error and you can check the status with C<<error()>>:
+
+ die Dumper $blog->error unless $blog->info();
+
+On success, methods return whatever Tumblr responded as per API, decoding JSON into Perl using C<<JSON>>. This behavior has not changed from previous versions of this module.
+
+=cut
 
 use Moose;
 use Carp;
@@ -15,7 +66,7 @@ use Net::OAuth::Client;
 use WWW::Tumblr::API;
 use WWW::Tumblr::Blog;
 use WWW::Tumblr::User;
-use WWW::Tumblr::Authentication::OAuth;
+use WWW::Tumblr::Authentication;
 use LWP::UserAgent;
 
 has 'consumer_key',     is => 'rw', isa => 'Str';
