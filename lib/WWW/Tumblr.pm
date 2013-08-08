@@ -56,6 +56,14 @@ All operation methods will return false in case of error and you can check the s
 
 On success, methods return whatever Tumblr responded as per API, decoding JSON into Perl using C<<JSON>>. This behavior has not changed from previous versions of this module.
 
+=head1 CAVEATS
+
+=head1 AUTHOR
+
+=head1 SEE ALSO
+
+=head1 COPYRIGHT and LICENSE
+
 =cut
 
 use Moose;
