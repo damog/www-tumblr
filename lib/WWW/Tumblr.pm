@@ -5,7 +5,7 @@ use warnings;
 
 require v5.10;
 
-our $VERSION = '5.01';
+our $VERSION = '5.00_01';
 
 =pod
 
