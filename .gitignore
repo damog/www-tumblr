@@ -1,1 +1,2 @@
 Makefile.old
+t/99*.t
