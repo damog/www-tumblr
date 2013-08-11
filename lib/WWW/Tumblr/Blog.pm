@@ -24,12 +24,12 @@ tumblr_api_method post_delete           => [ 'POST', 'oauth' ];
 
 my %post_required_params = (
     text        => 'body',
-    photo       => { any => [qw(source)] },
+    photo       => { any => [qw(source data)] },
     quote       => 'quote',
     link        => 'url',
     chat        => 'conversation',
-    audio       => { any => [qw(external_url)] },
-    video       => { any => [qw(embed)] },
+    audio       => { any => [qw(external_url data)] },
+    video       => { any => [qw(embed data)] },
 );
 
 sub post {

@@ -196,6 +196,8 @@ sub _oauth_request {
 	my $url_path= shift;
 	my $params = shift;
 
+    my $data = delete $params->{data};
+
 	my $request = $self->oauth->_make_request(
 		'protected resource', 
 		request_method => uc $method,
@@ -208,11 +210,21 @@ sub _oauth_request {
 	);
 	$request->sign;
 
-	my $message = $method =~ /post/i 
-				? POST $request->to_url, Content => $request->to_post_body
-				: GET $request->to_url;
+    my $authorization_signature = $request->to_authorization_header;
 
-	return $self->oauth->request( $message );
+    my $message;
+    if ( $method eq 'GET' ) {
+        $message = GET 'http://api.tumblr.com/v2/' . $url_path . '?' . $request->normalized_message_parameters, 'Authorization' => $authorization_signature;
+    } elsif ( $method eq 'POST' ) {
+        $message = POST('http://api.tumblr.com/v2/' . $url_path,
+            Content_Type => 'form-data',
+            Authorization => $authorization_signature,
+            Content => [
+                %$params, ( $data ? ( data => $data ) : () )
+            ]);
+    }
+
+	return $self->ua->request( $message );
 }
 
 sub _session {
