@@ -220,7 +220,10 @@ sub _oauth_request {
             Content_Type => 'form-data',
             Authorization => $authorization_signature,
             Content => [
-                %$params, ( $data ? ( data => $data ) : () )
+                %$params, ( $data ? do {
+                    my $i = -1;
+                    map { $i++; 'data[' . $i .']' => [ $_ ] } @$data
+                } : () )
             ]);
     }
 
