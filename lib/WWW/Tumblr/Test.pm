@@ -14,6 +14,7 @@ my $t = WWW::Tumblr->new(
     token_secret        => 'VbFLz3lZ3P2ghw5b4dHwNNw4IAq13uHgDp4reZy4N24b4VlfM8',
 );
 
-sub blog { $t->blog('perlapi.tumblr.com') };
+sub user { $t->user }
+sub blog { $t->blog('perlapi.tumblr.com') }
 
 1;
