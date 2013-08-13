@@ -124,6 +124,18 @@ sub blog {
     });
 }
 
+sub tagged {
+    my $self = shift;
+    my $args = { @_ };
+
+    return $self->_tumblr_api_request({
+        auth => 'apikey',
+        http_method => 'GET',
+        url_path => 'tagged',
+        extra_args => $args,
+    });
+}
+
 sub oauth_tools {
 	my ( $self ) = shift;
 	return WWW::Tumblr::Authentication::OAuth->new(
@@ -177,7 +189,7 @@ sub _apikey_request {
     my $req; # request object
     if ( $method eq 'GET' ) {
         $req = HTTP::Request->new(
-            $method => 'http://api.tumblr.com/v2/' . $url_path . '?api_key='.$self->consumer_key.
+            $method => 'http://api.tumblr.com/v2/' . $url_path . '?api_key='.$self->consumer_key . '&' .
             ( join '&', map { $_ .'='. $params->{ $_} } keys %$params )
         );
     } elsif ( $method eq 'POST' ) {
