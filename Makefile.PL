@@ -6,7 +6,6 @@ WriteMakefile(
     NAME            => 'WWW::Tumblr',
     VERSION_FROM    => 'lib/WWW/Tumblr.pm',
     AUTHOR          => q{David Moreno <david@axiombox.com>},
-    ABSTRACT_FROM   => 'lib/WWW/Tumblr.pm',
     LICENSE         => 'perl',
 
     PREREQ_PM => {
