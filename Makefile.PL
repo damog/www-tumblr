@@ -7,15 +7,19 @@ WriteMakefile(
     VERSION_FROM    => 'lib/WWW/Tumblr.pm',
     AUTHOR          => q{David Moreno <david@axiombox.com>},
     ABSTRACT_FROM   => 'lib/WWW/Tumblr.pm',
+    LICENSE         => 'perl',
 
-    ($ExtUtils::MakeMaker::VERSION >= 6.3002
-    ? ('LICENSE'=> 'perl')
-    : ()),
-
-    
     PREREQ_PM => {
-        'Test::More'     => 0.88,
-        'LWP'            => 0,
+        'Moose'                 => 0,
+        'JSON'                  => 0,
+        'LWP::UserAgent'        => 0,
+        'Net::OAuth::Client'    => 0,
+        'HTTP::Request::Common' => 0,
+    },
+
+    TEST_REQUIRES => {
+        'Test::More'            => 0,
+        'LWP::Simple'           => 0,
     },
 
     MIN_PERL_VERSION => '5.012',
