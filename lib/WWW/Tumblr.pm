@@ -142,7 +142,7 @@ Krivopolenov, Squeeks, Fernando Vezzosi.
 
 =item *
 
-L<Net::Oauth> because, you know, we're based off it.
+L<Net::OAuth> because, you know, we're based off it.
 
 =item *
 
