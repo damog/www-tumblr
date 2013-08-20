@@ -9,7 +9,11 @@ our $VERSION = '5.00_01';
 
 =head1 NAME
 
-WWW::Tumblr
+WWW::Tumblr - Perl bindings for the Tumblr API
+
+=head1 VERSION
+
+5.00_01 (experimental release)
 
 =head1 SYNOPSIS
 
