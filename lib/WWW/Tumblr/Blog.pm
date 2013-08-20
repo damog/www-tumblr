@@ -97,7 +97,7 @@ sub post_reblog {
     $self->_post( %args );
 }
 
-sub blog { ... }
+sub blog { Carp::croak "Unsupported" }
 
 1;
 
