@@ -26,13 +26,7 @@ WWW::Tumblr
 
   print Dumper $blog->info;
 
-=head1 MODULE AND TUMBLR API VERSION NOTE
-
-This module supports Tumblr API v2, starting from module version 5. Since the
-previous API was deprecated upstream anyway, there's no backwards compatibility
-with < 5 versions. You have been warned and have a nice day.
-
-=head1 DESCRIPTION
+head1 DESCRIPTION
 
 This module makes use of some sort of the same models as the upstream API,
 meaning that you will have User, Blog and Tagged methods:
@@ -121,6 +115,19 @@ needs a complete rewrite, as well as proper documentation. The main author of th
 module wanted to release it like this to have people interested on Tumblr and Perl
 give it a spin.
 
+=head1 BUGS
+
+Please report as many as you want/can. File them up at GitHub:
+L<https://github.com/damog/www-tumblr/issues/new>. Please don't use the CPAN RT.
+
+=head1 MODULE AND TUMBLR API VERSION NOTE
+
+This module supports Tumblr API v2, starting from module version 5. Since the
+previous API was deprecated upstream anyway, there's no backwards compatibility
+with < 5 versions.
+
+=
+
 =head1 AUTHOR(S)
 
 L<David Moreno|http://damog.net/> is the main author and maintainer of this module.
@@ -133,7 +140,7 @@ Krivopolenov, Squeeks, Fernando Vezzosi.
 
 =item *
 
-L<Net::Oauth> because, you know, we're based of it.
+L<Net::Oauth> because, you know, we're based off it.
 
 =item *
 
@@ -147,6 +154,12 @@ This software is copyright (c) 2013 by David Moreno.
  
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
+
+=head1 DISCLAIMER
+
+The author is in no way affiliated to Tumblr or Yahoo! Inc. If either of them
+want to show their appreciation for this work, they contact the author directly
+or donate to the Perl Foundation at L<http://donate.perlfoundation.org/>.
 
 =cut
 
