@@ -3,8 +3,6 @@ package WWW::Tumblr;
 use strict;
 use warnings;
 
-require v5.12; # yada yada ftw
-
 our $VERSION = '5.00_01';
 
 =pod
@@ -265,7 +263,7 @@ sub _none_request {
             $method => 'http://api.tumblr.com/v2/' . $url_path,
         );
     } elsif ( $method eq 'POST' ) {
-        ...
+        Carp::croak "Unimplemented";
     } else {
         die "dude, wtf.";
     }
@@ -290,7 +288,7 @@ sub _apikey_request {
             ( join '&', map { $_ .'='. $params->{ $_} } keys %$params )
         );
     } elsif ( $method eq 'POST' ) {
-        ...
+        Carp::croak "Unimplemented";
     } else {
         die "$method misunderstood";
     }

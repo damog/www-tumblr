@@ -28,10 +28,10 @@ sub reasons  {
                 return $j->{response}->{errors};
             }
         } else {
-            ...
+            Carp::croak "Unimplemented";
         }
     } else {
-        ...
+        Carp::croak "Unimplemented";
     }
 }
 
