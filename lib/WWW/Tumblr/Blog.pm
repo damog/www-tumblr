@@ -101,3 +101,79 @@ sub blog { ... }
 
 1;
 
+=pod
+
+=head1 NAME
+
+WWW::Tumblr::Blog
+
+=head1 SYNOPSIS
+
+  my $blog = $t->blog('stuff.tumblr.com');
+  # or the domain name:
+  # my $blog = $t->blog('myblogontumblrandstuff.com');
+
+  # as per http://www.tumblr.com/docs/en/api/v2#blog-info
+  my $info = $blog->info;
+
+  # as per http://www.tumblr.com/docs/en/api/v2#blog-likes
+  my $likes = $blog->likes;
+  my $likes = $blog->likes(
+      limit => 5,
+      offset => 10,
+  );
+
+  # as per http://www.tumblr.com/docs/en/api/v2#photo-posts
+  my $posts = $blog->posts(
+      type => 'photo',
+      ... # etc
+  );
+
+  # Posting to the blog:
+  
+  # using the source param:
+  my $post = $blog->post(
+      type => 'photo',
+      source => 'http://someserver.com/photo.jpg',
+  );
+
+  # using local files with the data param
+  # which needs to be an array reference
+  my $post = $blog->post(
+      type => 'photo',
+      data => [ '/home/david/larry.jpg' ],
+  );
+
+  # you can post multiple files, as per the Tumblr API:
+  my $post = $blog->post(
+      type => 'photo',
+      data => [ '/file1.jpg', 'file2.jpg', ... ],
+  );
+
+  # if the result was false (empty list), then do something with the
+  # error:
+  do_something_with_the_error( $tumblr->error ) unless $post;
+                                                       # or $likes
+                                                       # or $info
+                                                       # or anything else
+
+=head1 CAVEATS
+
+I never really tried posting audios or videos.
+
+=head1 BUGS
+
+Please refer to L<WWW::Tumblr>.
+
+=head1 AUTHOR(S)
+
+The same folks as L<WWW::Tumblr>.
+
+=head1 SEE ALSO
+
+L<WWW::Tumblr>, L<WWW::Tumblr::ResponseError>.
+
+=head1 COPYRIGHT and LICENSE
+
+Same as L<WWW::Tumblr>.
+
