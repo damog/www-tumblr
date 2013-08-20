@@ -3,7 +3,7 @@ package WWW::Tumblr;
 use strict;
 use warnings;
 
-require v5.10;
+require v5.12; # yada yada ftw
 
 our $VERSION = '5.00_01';
 
@@ -23,19 +23,33 @@ WWW::Tumblr
   );
  
   my $blog = $t->blog('perlapi.tumblr.com');
+
   print Dumper $blog->info;
 
 =head1 MODULE AND TUMBLR API VERSION NOTE
 
-This module supports Tumblr API v2, starting from version 5. Since the previous API was deprecated upstream anyway, there's no backwards compatibility with < 5 versions.
+This module supports Tumblr API v2, starting from module version 5. Since the
+previous API was deprecated upstream anyway, there's no backwards compatibility
+with < 5 versions. You have been warned and have a nice day.
 
 =head1 DESCRIPTION
 
-The new Tumblr API has changed the structure of data to query and its hierarchy. This module now reflects those changes as well. The main three classes are C<<WWW::Tumblr::User>>, C<<WWW::Tumblr::Blog>> and C<<WWW::Tumblr::Tagged>>.You can however, reach them directly C<<WWW::Tumblr>>, in most cases:
+This module makes use of some sort of the same models as the upstream API,
+meaning that you will have User, Blog and Tagged methods:
 
-  my $t = WWW::Tumblr->new( %set_of_four_tokens );
+  my $t = WWW::Tumblr->new(
+    consumer_key    => $consumer_key,
+    secret_key      => $secret_key,
+    token           => $token,
+    token_secret    => $token_secret,
+  );
+
+  # Once you have a WWW::Tumblr object, you can get a WWW::Tumblr::Blog object
+  # by calling the blog() method from the former object:
+  
   my $blog = $t->blog('perlapi.tumblr.com');
  
+  # And then just use WWW::Tumblr::Blog methods from it:
   if ( my $post = $blog->post( type => 'text', body => 'Hell yeah, son!' ) ) {
      say "I have published post id: " . $post->{id};    
   } else {
@@ -43,26 +57,96 @@ The new Tumblr API has changed the structure of data to query and its hierarchy.
      die "I couldn't post it :(";
   }
 
-You can also work directly with a C<<WWW::Tumblr::Blog>> class for example:
+You can also work directly with a L<WWW::Tumblr::Blog> class for example:
 
+  # You will need to set base_hostname:
   my $blog = WWW::Tumblr::Blog->new(
      %four_tokens,
      base_hostname => 'myblogontumblr.com'
   );
 
-All operation methods will return false in case of error and you can check the status with C<<error()>>:
+All operation methods on the entire API will return false in case of an
+upstream error and you can check the status with C<error()>:
 
   die Dumper $blog->error unless $blog->info();
 
-On success, methods return whatever Tumblr responded as per API, decoding JSON into Perl using C<<JSON>>. This behavior has not changed from previous versions of this module.
+On success, methods will return a hash reference with the JSON representation
+of the upstream response. This behavior has not changed from previous versions
+of this module.
+
+=head1 METHOD PARAMETERS
+
+All methods require the same parameters as the upstream API, passed as hash
+where the keys are the request parameters and the values the corresponding
+data.
+
+=head1 DOCUMENTATION
+
+Please refer to each module for further tips, tricks and slightly more detailed
+documentation:
+
+=over
+
+=item *
+
+L<WWW::Tumblr::Blog>
+
+=item *
+
+L<WWW::Tumblr::User>
+
+=item *
+
+L<WWW::Tumblr::Tagged>
+
+=item *
+
+L<WWW::Tumblr::ResponseError>
+
+=back
+
+Take also a look at the C<t/> directory inside the distribution. There you can see
+how you can do a bunch of things: get posts, submissions, post quotes, text,
+etc, etc.
+
+=head1 AUTHORIZATION
+
+It is possible to generate authorization URLs and do the whole OAuth dance. Please
+refer to the C<examples/> directory within the distribution to learn more.
 
 =head1 CAVEATS
 
-=head1 AUTHOR
+This is considered an experimental version of the module. The request engine
+needs a complete rewrite, as well as proper documentation. The main author of the
+module wanted to release it like this to have people interested on Tumblr and Perl
+give it a spin.
+
+=head1 AUTHOR(S)
+
+L<David Moreno|http://damog.net/> is the main author and maintainer of this module.
+The following amazing people have also contributed from version 5 onwards: Artem
+Krivopolenov, Squeeks, Fernando Vezzosi.
 
 =head1 SEE ALSO
 
+=over
+
+=item *
+
+L<Net::Oauth> because, you know, we're based of it.
+
+=item *
+
+L<Moose>, likewise.
+
+=back
+
 =head1 COPYRIGHT and LICENSE
+
+This software is copyright (c) 2013 by David Moreno.
+ 
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
