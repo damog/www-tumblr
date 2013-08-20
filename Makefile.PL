@@ -21,8 +21,6 @@ WriteMakefile(
         'LWP::Simple'           => 0,
     },
 
-    MIN_PERL_VERSION => '5.012',
-
     META_MERGE => {
         resources => {
             homepage   => 'http://github.com/damog/www-tumblr',
