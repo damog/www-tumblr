@@ -158,8 +158,9 @@ the same terms as the Perl 5 programming language system itself.
 =head1 DISCLAIMER
 
 The author is in no way affiliated to Tumblr or Yahoo! Inc. If either of them
-want to show their appreciation for this work, they contact the author directly
-or donate to the Perl Foundation at L<http://donate.perlfoundation.org/>.
+want to show their appreciation for this work, they can contact the author directly
+or donate a few of those billion dollars Yahoo! paid for Tumblr, to the Perl
+Foundation at L<http://donate.perlfoundation.org/>.
 
 =cut
 
