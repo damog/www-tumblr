@@ -2,6 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
+use File::Spec;
 use File::Basename qw( dirname );
 use Cwd 'abs_path';
 
