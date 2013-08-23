@@ -19,13 +19,16 @@ sub reasons  {
         } elsif ( ref $j->{response} && ref $j->{response} eq 'HASH' &&
             defined $j->{response}->{errors}  
         ) {
-            if ( defined $j->{response}->{errors}->{state} ) {
+            if ( ref $j->{response}->{errors} eq 'HASH' &&
+                defined $j->{response}->{errors}->{state} ) {
                 return [ 
                     $j->{response}->{errors}->{0},
                     $j->{response}->{errors}->{state}
                 ];
-            } else {
+            } elsif ( ref $j->{response}->{errors} eq 'ARRAY' ) {
                 return $j->{response}->{errors};
+            } else {
+                Carp::croak "Unimplemented";
             }
         } else {
             Carp::croak "Unimplemented";
