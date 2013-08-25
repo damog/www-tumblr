@@ -3,7 +3,7 @@ package WWW::Tumblr;
 use strict;
 use warnings;
 
-our $VERSION = '5.00_04';
+our $VERSION = '5.00';
 
 =pod
 
@@ -13,7 +13,7 @@ WWW::Tumblr - Perl bindings for the Tumblr API
 
 =head1 VERSION
 
-5.00_04 (experimental release)
+5.00
 
 =head1 SYNOPSIS
 
