@@ -334,9 +334,7 @@ sub _oauth_request {
                    if (ref($data) eq 'ARRAY') {
                       my $i = -1;
                       map { $i++; 'data[' . $i .']' => [ $_ ] } @$data
-                   }
-                   else
-                   {
+                   } else {
                      'data' => [ $data ]
                    }
                 } : () )
