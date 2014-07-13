@@ -1,3 +1,7 @@
+5.1 - Sun Jul 13 13:06:05 CEST 2014
+  - Support for single video/audio data:
+    https://github.com/damog/www-tumblr/pull/9
+
 5.00 - Sun Aug 25 15:35:41 CEST 2013
   - Final 5.00.
 
