@@ -1,3 +1,6 @@
+5.1.1 - Sat Sep 19 12:32:40 CEST 2015
+  - Using a different random quote API for the quote test.
+
 5.1 - Sun Jul 13 13:06:05 CEST 2014
   - Support for single video/audio data:
     https://github.com/damog/www-tumblr/pull/9
