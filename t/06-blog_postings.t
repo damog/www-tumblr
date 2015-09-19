@@ -12,7 +12,7 @@ use_ok('WWW::Tumblr::Test');
 my %post_types = (
     text    => { body => scalar localtime() },
     photo   => { source => 'http://lorempixel.com/400/200/' },
-    quote   => { quote => get 'http://www.iheartquotes.com/api/v1/random' },
+    quote   => { quote => decode_json( get 'http://quotesondesign.com/api/3.0/api-3.0.json' )->{quote} },
     link    => do {
         my ( $author, $release) = @{ decode_json( get("http://api.metacpan.org/v0/favorite/_search?size=50&fields=author,release&sort=date:desc") )->{hits}->{hits}->[ int rand 50 ]->{fields} }{'author', 'release'};
         { url => "http://metacpan.org/release/$author/$release" },
