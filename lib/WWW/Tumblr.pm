@@ -3,7 +3,7 @@ package WWW::Tumblr;
 use strict;
 use warnings;
 
-our $VERSION = '5.1.1';
+our $VERSION = '5.2';
 
 =pod
 
