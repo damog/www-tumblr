@@ -174,6 +174,7 @@ use WWW::Tumblr::Blog;
 use WWW::Tumblr::User;
 use WWW::Tumblr::Authentication;
 use LWP::UserAgent;
+use Encode;
 
 has 'consumer_key',     is => 'rw', isa => 'Str';
 has 'secret_key',       is => 'rw', isa => 'Str';
@@ -344,6 +345,9 @@ sub _oauth_request {
     if ( $method eq 'GET' ) {
         $message = GET 'http://api.tumblr.com/v2/' . $url_path . '?' . $request->normalized_message_parameters, 'Authorization' => $authorization_header;
     } elsif ( $method eq 'POST' ) {
+        foreach ( keys %$params ) {
+            $$params{$_} = encode_utf8($$params{$_});
+        }
         $message = POST('http://api.tumblr.com/v2/' . $url_path,
             Content_Type => 'form-data',
             Authorization => $authorization_header,

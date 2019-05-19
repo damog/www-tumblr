@@ -5,6 +5,7 @@ use Test::More;
 use LWP::Simple 'get';
 use JSON;
 use Data::Dumper;
+use Encode;
 
 use_ok('WWW::Tumblr');
 use_ok('WWW::Tumblr::Test');
@@ -31,5 +32,6 @@ for my $type ( sort keys %post_types ) {
     ok $blog->post( type => $type, %{ $post_types{ $type } } ),       "trying $type";
 }
 
+ok $blog->post( type => 'text', 'body' => decode_utf8( scalar localtime().'文本テキスト본문') ),       "trying text including UTF-8 string";
 
 done_testing();
