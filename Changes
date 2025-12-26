@@ -12,6 +12,11 @@
     - Updated follow/unfollow tests to use staff.tumblr.com (old blog deleted)
     - Fixed UTF-8 posting: encode params to bytes before POST (PR #15)
     - Fixed post_reblog() - was broken, now works for all post types (issue #7)
+    - Added rate limit handling for CPAN Testers (issue #17):
+      - Added is_rate_limited() method to ResponseError
+      - Tests now gracefully skip when rate limit is hit
+      - Added TUMBLR_SKIP_POSTING_TESTS env var to skip posting tests
+      - Added TUMBLR_SKIP_LIVE_TESTS env var to skip all live API tests
 
 5.3 - Sat 06 Apr 2019 03:31:37 PM CEST
   - Let's not get ahead ourselves.
