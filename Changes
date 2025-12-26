@@ -20,6 +20,7 @@
     - Documented image format limitations (issue #18):
       - Legacy API only supports JPEG/PNG/GIF (not WebP)
       - NPF support noted as future enhancement
+    - Security: Require Net::OAuth::Client >= 0.30 for CVE-2025-22376 (issue #19)
 
 5.3 - Sat 06 Apr 2019 03:31:37 PM CEST
   - Let's not get ahead ourselves.
