@@ -11,6 +11,7 @@
     - Fixed tagged() method to return decoded JSON instead of HTTP::Response
     - Updated follow/unfollow tests to use staff.tumblr.com (old blog deleted)
     - Fixed UTF-8 posting: encode params to bytes before POST (PR #15)
+    - Fixed post_reblog() - was broken, now works for all post types (issue #7)
 
 5.3 - Sat 06 Apr 2019 03:31:37 PM CEST
   - Let's not get ahead ourselves.

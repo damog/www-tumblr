@@ -95,7 +95,25 @@ sub post_reblog {
 
     Carp::croak "no id specified when trying to reblog a post!"
         unless $args{ id };
-    $self->_post( %args );
+    Carp::croak "no reblog_key specified when trying to reblog a post!"
+        unless $args{ reblog_key };
+
+    # Reblog doesn't go through _post() as it doesn't need a type
+    my $response = $self->_tumblr_api_request({
+        auth => 'oauth',
+        http_method => 'POST',
+        url_path => 'blog/' . $self->base_hostname . '/post/reblog',
+        extra_args => \%args,
+    });
+
+    if ( $response->is_success ) {
+        return decode_json( $response->decoded_content)->{response};
+    } else {
+        $self->error( WWW::Tumblr::ResponseError->new(
+            response => $response
+        ));
+        return;
+    }
 }
 
 sub blog { Carp::croak "Unsupported" }
@@ -157,6 +175,19 @@ WWW::Tumblr::Blog
                                                        # or $likes
                                                        # or $info
                                                        # or anything else
+
+  # Reblogging a post (photosets, text, anything):
+  # First get the post you want to reblog to obtain its reblog_key
+  my $source = $t->blog('someblog.tumblr.com');
+  my $posts = $source->posts(limit => 1);
+  my $original = $posts->{posts}[0];
+
+  # Then reblog it to your blog:
+  my $reblog = $blog->post_reblog(
+      id         => $original->{id},
+      reblog_key => $original->{reblog_key},
+      comment    => 'Nice post!',  # optional
+  );
 
 =head1 CAVEATS
 
