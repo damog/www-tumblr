@@ -1,10 +1,12 @@
 use strict;
 use warnings;
+use utf8;
 
 use Test::More;
 use LWP::Simple 'get';
 use JSON;
 use Data::Dumper;
+use Encode 'decode_utf8';
 
 use_ok('WWW::Tumblr');
 use_ok('WWW::Tumblr::Test');
@@ -33,5 +35,11 @@ for my $type ( sort keys %post_types ) {
     ok $blog->post( type => $type, %{ $post_types{ $type } } ),       "trying $type";
 }
 
+# Test UTF-8 posting (PR #15)
+my $utf8_body = scalar(localtime()) . " - UTF-8 test: \x{65e5}\x{672c}\x{8a9e}";  # Japanese chars
+ok $blog->post(
+    type => 'text',
+    body => $utf8_body,
+), "trying text with UTF-8 characters";
 
 done_testing();

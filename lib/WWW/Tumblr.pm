@@ -168,6 +168,7 @@ use Moose;
 use Carp;
 use Data::Dumper;
 use JSON 'decode_json';
+use Encode 'encode_utf8';
 use HTTP::Request::Common;
 use Net::OAuth::Client;
 use WWW::Tumblr::API;
@@ -354,6 +355,11 @@ sub _oauth_request {
     if ( $method eq 'GET' ) {
         $message = GET 'https://api.tumblr.com/v2/' . $url_path . '?' . $request->normalized_message_parameters, 'Authorization' => $authorization_header;
     } elsif ( $method eq 'POST' ) {
+        # Encode string parameters to UTF-8 bytes (fixes UTF-8 posting, PR #15)
+        for my $key ( keys %$params ) {
+            next unless defined $params->{$key} && !ref($params->{$key});
+            $params->{$key} = encode_utf8($params->{$key});
+        }
         $message = POST('https://api.tumblr.com/v2/' . $url_path,
             Content_Type => 'form-data',
             Authorization => $authorization_header,

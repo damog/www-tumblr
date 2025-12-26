@@ -10,6 +10,7 @@
     - Updated metacpan API URL to fastapi.metacpan.org
     - Fixed tagged() method to return decoded JSON instead of HTTP::Response
     - Updated follow/unfollow tests to use staff.tumblr.com (old blog deleted)
+    - Fixed UTF-8 posting: encode params to bytes before POST (PR #15)
 
 5.3 - Sat 06 Apr 2019 03:31:37 PM CEST
   - Let's not get ahead ourselves.
