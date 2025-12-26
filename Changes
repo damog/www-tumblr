@@ -17,6 +17,9 @@
       - Tests now gracefully skip when rate limit is hit
       - Added TUMBLR_SKIP_POSTING_TESTS env var to skip posting tests
       - Added TUMBLR_SKIP_LIVE_TESTS env var to skip all live API tests
+    - Documented image format limitations (issue #18):
+      - Legacy API only supports JPEG/PNG/GIF (not WebP)
+      - NPF support noted as future enhancement
 
 5.3 - Sat 06 Apr 2019 03:31:37 PM CEST
   - Let's not get ahead ourselves.

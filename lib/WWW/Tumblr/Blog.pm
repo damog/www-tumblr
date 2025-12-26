@@ -191,7 +191,32 @@ WWW::Tumblr::Blog
 
 =head1 CAVEATS
 
+=over
+
+=item *
+
 I never really tried posting audios or videos.
+
+=item *
+
+B<Image format limitations:> This module uses Tumblr's legacy posting API which
+only supports B<JPEG, PNG, and GIF> images. Formats like B<WebP are not supported>
+by the legacy API. If you try to upload a webp file, you'll get:
+
+  Error 400: Mime type "image/webp" not supported from file
+
+This is a Tumblr API limitation, not a bug in this module. Tumblr's web interface
+uses their newer NPF (Neue Post Format) which supports more formats. NPF support
+would require significant changes to this module and is tracked as a future
+enhancement. See L<https://www.tumblr.com/docs/npf> for NPF documentation.
+
+=item *
+
+B<Video uploads:> Direct video file uploads have similar limitations. The legacy
+API primarily supports video via embed URLs (YouTube, Vimeo, etc.) rather than
+direct file uploads.
+
+=back
 
 =head1 BUGS
 
