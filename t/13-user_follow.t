@@ -8,7 +8,7 @@ use_ok('WWW::Tumblr::Test');
 
 my $user = WWW::Tumblr::Test::user();
 
-my $follow = $user->follow( url => 'whenyouliveinamsterdam.tumblr.com' );
+my $follow = $user->follow( url => 'staff.tumblr.com' );
 
 ok $follow,                       'user follow is fine';
 

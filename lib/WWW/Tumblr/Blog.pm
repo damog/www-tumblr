@@ -1,5 +1,6 @@
 package WWW::Tumblr::Blog;
 use Moose;
+use Carp;
 use Data::Dumper;
 use JSON;
 

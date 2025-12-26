@@ -11,12 +11,14 @@ use_ok('WWW::Tumblr::Test');
 
 my %post_types = (
     text    => { body => scalar localtime() },
-    photo   => { source => 'http://lorempixel.com/400/200/' },
-    quote   => { quote => decode_json( get 'http://quotesondesign.com/api/3.0/api-3.0.json' )->{quote} },
+    photo   => { source => 'https://picsum.photos/400/200' },
+    quote   => { quote => 'The only way to do great work is to love what you do. - Steve Jobs' },
     link    => do {
         eval {
-            my ( $author, $release) = @{ decode_json( get("http://api.metacpan.org/v0/favorite/_search?size=50&fields=author,release&sort=date:desc") )->{hits}->{hits}->[ int rand 50 ]->{fields} }{'author', 'release'};
-            { url => "http://metacpan.org/release/$author/$release" }
+            my $data = decode_json( get("https://fastapi.metacpan.org/v1/favorite/_search?size=50&fields=author,release&sort=date:desc") );
+            my $hit = $data->{hits}->{hits}->[ int rand @{$data->{hits}->{hits}} ];
+            my ( $author, $release ) = @{ $hit->{fields} }{'author', 'release'};
+            { url => "https://metacpan.org/release/$author/$release" }
         } or do {
             { url => "https://damog.net/blog" }
         };

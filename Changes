@@ -1,3 +1,16 @@
+5.4 - Thu 26 Dec 2024
+  - Modernization and security updates:
+    - Changed all API URLs from HTTP to HTTPS
+    - Changed all OAuth URLs from HTTP to HTTPS
+    - Fixed POD version number mismatch
+    - Added proper Carp imports to Blog.pm and User.pm
+    - Fixed ResponseError to handle non-JSON responses gracefully
+    - Fixed Authentication::OAuth mixed inheritance (use base + extends)
+    - Updated test URLs: replaced dead lorempixel/quotesondesign APIs
+    - Updated metacpan API URL to fastapi.metacpan.org
+    - Fixed tagged() method to return decoded JSON instead of HTTP::Response
+    - Updated follow/unfollow tests to use staff.tumblr.com (old blog deleted)
+
 5.3 - Sat 06 Apr 2019 03:31:37 PM CEST
   - Let's not get ahead ourselves.
   - Addressing changes on Tumblr API. Please see:

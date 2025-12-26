@@ -9,7 +9,13 @@ has 'response', is => 'rw', isa => 'HTTP::Response';
 sub code    { $_[0]->response->code }
 sub reasons  {
     my $self = $_[0];
-    my $j = decode_json( $_[0]->response->decoded_content);
+    my $content = $_[0]->response->decoded_content;
+    my $j;
+    eval { $j = decode_json($content); };
+    if ($@) {
+        # Response is not valid JSON, return HTTP message
+        return [ $self->response->message || 'Unknown error' ];
+    }
     if ( ref $j && ref $j eq 'HASH' ) {
         if ( ref $j->{response} && ref $j->{response} eq 'ARRAY' ) {
             unless ( scalar @{ $j->{response} }) {
